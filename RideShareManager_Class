@@ -1,0 +1,43 @@
+# Group-C3-MIS-project
+public class RideShareManager{
+
+Public static void applyServiceCharge (
+#applyServiceCharge - charges 20% from all driver’s revenue for the month
+Charges =allRevenue*.20
+
+Public static int getDriverTotal (
+#getDriverTotal - gets the total number of drivers for the day
+Int driversToday = totalDrivers.size() //arraylist
+Return driversToday
+
+Public static int getRiderTotal (
+#getRiderTotal - gets the total number of riders for the day
+Counter = 0;
+for(i=0; i<= trips; i++)
+{
+Counter++
+Return counter
+}
+
+Public static double getServiceCharge(
+#getServiceCharge - gets the total service charge for the day
+Double serviceCharge = 0;
+for(i=0; i<=trips; i++)
+{
+serviceCharge  += moneyPerTrip
+Return servicCharge
+}
+
+Public static int getTotalMiles(
+#getTotalMiles - gets the total miles traveled using Cyclone Ride Share today
+Int totalMiles = 0;
+for(i=0; i<=trips; i++;)
+{
+totalMiles+=odometerChange
+Return totalMiles
+}
+
+Public static void AvgMiles(
+#getAvgMiles - gets average miles traveled per trip on Cyclone Ride Share trips today
+Int avgMiles =  totalMiles/trips;
+Return avgMiles
