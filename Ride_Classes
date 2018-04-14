@@ -1,0 +1,6 @@
+public class Ride
+	public static void requestRide(
+//requestRide - User can request a ride from their location to destination. They must supply the distance and which level car they would like. 
+
+public static void driverInfo
+//driverInfo - returns driver name from (DriverList method findDriver) and the car level
