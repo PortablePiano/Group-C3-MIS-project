@@ -1,1 +1,13 @@
-ArrayList: AllRiders
+Table for Drivers (SQL): AllDrivers
+Category Headings (in order):
+  Phone Number
+  Name
+  Make
+  Model
+  Color
+  License Plate
+  Drivers License Number
+  Ride Level
+  Pay Rate
+
+Table for Riders (SQL); AllRiders
