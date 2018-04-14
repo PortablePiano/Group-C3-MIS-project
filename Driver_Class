@@ -1,0 +1,70 @@
+public class Driver{
+//Using a driver drive.txt that contains the drivers names, car type (make, model, color,  license plate), driver’s ID.
+
+Public static void readTxtFile()
+//reads text files and them in arrays lists
+File file = new File(drive.txt);
+Scanner in = new Scanner(file);
+While (in.hasnextline()){
+names.add(in.next());
+make.add(in.next());
+model.add(in.next());
+color.add(in.next());
+licensePlate.add(in.next());
+names.add(in.nextInt());
+}
+
+Public static string getName(int id)
+//getName - gets driver’s name provided driver ID
+for(int i = 0; i < ids.length(); i++){
+	If (id == ids[i]){
+		location = i;
+Return names.get(i);
+	}
+}
+System.out.println(“Not a valid ID”);
+Break;
+
+Public static string getCar(String license)
+//getCar - get driver’s car type provided license plate 
+for(int i = 0; i < model.length(); i++){
+	If (license == licensePlate[i]){
+Return model.get(i);
+	}
+}
+System.out.println(“Not a valid license plate”);
+Break;
+
+Public static int getId(String name
+//getID - gets driver’s ID number provided name
+for(int i = 0; i < id.length(); i++){
+	If (name == names[i]){
+Return.get(i);
+	}
+}
+System.out.println(“Not a valid name”);
+Break;
+
+Public static void setId(String name, int id
+//setID - changes driver ID given you provide name and new ID
+	for(int i = 0; i < names.length(); i++){
+	If (name == names[i]){
+	ids.set(i, id);
+	}
+}
+System.out.println(“Not a valid name”);
+
+Public static void setName(int id, String name
+//setName - sets driver’s name given you provide ID and new name
+for(int i = 0; i < names.length(); i++){
+	If (id == ids[i]){
+	names.set(i, name);
+	}
+}
+System.out.println(“Not a valid ID”);
+
+Public static void setCar(
+//setCar - sets driver’s car type (including license plate)
+
+Public static void addCar(String name
+//addCar - 
