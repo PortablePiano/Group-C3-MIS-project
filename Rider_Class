@@ -1,0 +1,42 @@
+public class Rider 
+//Storage of riders information, basically like logos
+
+public static void getName(
+//getName - gets rider’s name
+String stmt = "SELECT Name FROM AllRiders WHERE Phone = ” + phone; 
+//phone is given in AppMain
+boolean hasResultSet = stat.execute(stmt);
+	if (hasResultSet){
+ResultSet result = stat.executeQuery(stmt);
+System.out.println(result.getString(0));//maybe 1??         
+}else{
+             System.out.println("No driver found.");
+}
+result.close();
+}
+ 	
+public static void setID(
+//setID - sets rider’s customer ID number….also if they wanted to change their number, which is there ID
+String stmt = "SET Phone Number FROM AllRiders WHERE Phone = ” + phone; 
+//phone is given in AppMain
+boolean hasResultSet = stat.execute(stmt);
+	if (hasResultSet){
+ResultSet result = stat.executeQuery(stmt);
+System.out.println(result.getString(0));//maybe 1??         
+}else{
+             System.out.println("No driver found.");
+}
+result.close();
+
+public static void setName(
+//setName - sets rider’s name 
+String stmt = "SET  Name FROM AllRiders WHERE Phone = ” + phone; 
+//phone is given in AppMain
+boolean hasResultSet = stat.execute(stmt);
+	if (hasResultSet){
+ResultSet result = stat.executeQuery(stmt);
+System.out.println(result.getString(0));//maybe 1??         
+}else{
+             System.out.println("No driver found.");
+}
+result.close();
