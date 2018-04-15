@@ -1,7 +1,14 @@
 package projectpackage;
 
-import java.sql.*;
-import java.io.*;
+import java.sql.Connection;
+
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.io.IOException;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.FileReader;
 import java.util.*;
 
 public class AppMain {
@@ -57,8 +64,6 @@ public class AppMain {
 			
 			in.close();
 			
-			stat.execute("DROP TABLE AllDriver");
-			
 			stat.execute("CREATE TABLE AllDrivers (Phone CHAR(12), Name VARCHAR(20), Make VARCHAR(20), Model VARCHAR(20), Color VARCHAR(10), License Plate CHAR(6), Drivers License Number (9), Ride Level CHAR(1), Pay Rate VARCHAR(10)");
 			//create table for the driver information
 			for(int i=0; i<carMake.size(); i++){//insert all the values into an SQL database
@@ -67,7 +72,64 @@ public class AppMain {
 			
 			stat.execute("CREATE TABLE AllRiders (Phone CHAR(12), Name VARCHAR(20), Credit Card CHAR(19)");
 			
-			
+			boolean on = true;
+			while (on==true){
+				Scanner user = new Scanner(System.in);
+				String hold = "";
+				System.out.println("Please select if you are a manager, employee, or customer:");
+				System.out.println("(M) Manager");
+				System.out.println("(E) Employee");
+				System.out.println("(C) Customer");
+				System.out.println("(Q) Quit");
+				hold = user.next();
+				
+				if(hold.equalsIgnoreCase("Q")){
+					on = false;
+					stat.execute("DROP TABLE AllDrivers");
+					stat.execute("DROP TABLE AllRiders");
+				}
+				
+				if(hold.equalsIgnoreCase("M")){
+					boolean loop = true;
+					while(loop == true){
+						String pass = "1234";
+						String attempt = "";
+						Scanner mgmt = new Scanner(System.in);
+						System.out.println("Please enter the management password: ");
+						System.out.println("If you want to go back to the menu, enter: (S)");
+						attempt = mgmt.next();
+					
+						if(attempt.equals(pass)){
+							Scanner s1 = new Scanner(System.in);
+							String s2 = "";
+							System.out.println("What function would you like to perform?");
+							System.out.println("(1) ");
+							System.out.println("(2) ");
+							System.out.println("(3) ");
+							System.out.println("(4) ");
+							System.out.println("(5) ");
+							
+						}
+					
+						else if(attempt.equalsIgnoreCase("S")){
+							loop = false;
+						}
+					
+						else{
+							System.out.println("Sorry, that is incorrect.");
+						}
+					}
+					
+				}
+				
+				if(hold.equalsIgnoreCase("E")){
+					
+				}
+				
+				if(hold.equalsIgnoreCase("C")){
+					
+				}
+			}
 		}
 	}
 }
