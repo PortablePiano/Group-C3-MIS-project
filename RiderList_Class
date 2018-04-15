@@ -1,61 +1,69 @@
-public class riderList {
-	public static void addRider(
-//addRider - add a rider to array 
-try (Connection conn =appMain.getConnection()){
-	Connection conn =appMain.getConnection()
-Statement stat=conn.createStatement();
-Statement stat=conn.createStatement();
-Scanner in = new Scanner(System.in);
-System.out.println(“insert phone number (xxx-xxx-xxxx)”);
-String phone = in.next();
-System.out.println(“insert name”);
-String name = in.next();
-System.out.println(“insert credit card (xxxx-xxxx-xxxx-xxxx)”);
-String creditCard = in.next();
-String stmt = "INSERT INTO AllRiders VALUES (‘“ + phone + “‘, ‘” + name + “‘, ‘” + creditCard + “‘)”; 
-stat.execute(stmt);
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class RiderList {
+
+	public static void addRider() {
+		//addRider - add a rider to array
+		try (Connection conn =appMain.getConnection()){
+			Statement stat=conn.createStatement();
+			Scanner in = new Scanner(System.in);
+			System.out.println("insert phone number (xxx-xxx-xxxx)");
+			String phone = in.next();
+			System.out.println("insert name");
+			String name = in.next();
+			System.out.println("insert credit card (xxxx-xxxx-xxxx-xxxx)");
+			String creditCard = in.next();
+			String stmt = "INSERT INTO AllRiders VALUES '" + phone + "', '" + name + "', '" + creditCard + "'"; 
+			stat.execute(stmt);
+			}
+		}
+
+	public static void removeRider(String phone){	
+	//removeRider - remove rider from array
+		Connection conn =appMain.getConnection()
+		Statement stat=conn.createStatement();
+		String stmt = "DELETE FROM AllRiders WHERE Phone = '" + phone + "'"; 
+		//phone is given in AppMain
+		stat.execute(stmt);
+	}
+
+	public static void listRider(){
+	//listRider - lists all rider in system
+		Connection conn =appMain.getConnection();
+		Statement stat=conn.createStatement();
+		String stmt = "SELECT Name FROM AllRiders";
+		boolean hasResultSet = stat.execute(stmt);
+		if (hasResultSet){
+			ResultSet result = stat.executeQuery(stmt);
+			while (result.next()) {          			          
+				int i = 0;
+				System.out.printf("%15s\n",result.getString(i)); //Print one element of a row
+			    i++;
+			}
+		}else{
+		System.out.println("riders not found");
+		}
+	}
+
+
+	public static void findRider(String phone){
+	//findRider - find a rider name by using their customer ID
+		Connection conn =appMain.getConnection();
+		Statement stat=conn.createStatement();
+		String stmt = "SELECT Name FROM AllRiders WHERE Phone = '" + phone + "'"; 
+		//phone is given in AppMain
+		boolean hasResultSet = stat.execute(stmt);
+		if (hasResultSet){
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.println(result.getString(0));//maybe 1??
+			result.close();
+		}else{
+			System.out.println("No driver found.");
+		}
+			
+	}
+	
+	
 }
-
-public static void removeRider(	
-//removeRider - remove rider from array 
-Connection conn =appMain.getConnection()
-Statement stat=conn.createStatement();
-String stmt = "REMOVE Name FROM AllRiders WHERE Phone = ” + phone; 
-//phone is given in AppMain
-boolean hasResultSet = stat.execute(stmt);
-	if (hasResultSet){
-ResultSet result = stat.executeQuery(stmt);
-System.out.println(result.getString(0));//maybe 1??         
-}else{
-             System.out.println("No driver found.");
-}
-result.close();
-
-public static void listRider(
-//listRider - lists all rider in system 
-boolean hasResultSet = stat.execute("SELECT Name FROM AllRiders”);
-if (hasResultSet){
-		ResultSet result = stat.executeQuery(stmt);
-             	while (result.next()) {          			          
-             		for(int i = 1 ; i <= ; i++){	//Print one row
-System.out.printf("%15s",result.getString(i)); //Print one element of a row
-       			}
-System.out.println(); //Move to the next line to print the next row.           
-            		 }
-	}else{
-          		System.out.println("riders not found");
-              }
-
-
-public static void findRider(
-//findRider - find a rider by using their customer ID 
-String stmt = “SELECT Phone FROM AllRiders WHERE Phone = ” + phone; 
-//phone is given in AppMain
-boolean hasResultSet = stat.execute(stmt);
-	if (hasResultSet){
-ResultSet result = stat.executeQuery(stmt);
-System.out.println(result.getString(0));//maybe 1??         
-}else{
-             System.out.println("No driver found.");
-}
-result.close();
