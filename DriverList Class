@@ -1,71 +1,81 @@
-public class DriverList{
-public static void addDriver ()
-//addDriver - add a driver to array
-try (Connection conn =appMain.getConnection()){
-	Connection conn =appMain.getConnection()
-Statement stat=conn.createStatement();
-Statement stat=conn.createStatement();
-Scanner in = new Scanner(System.in);
-System.out.println(“insert phone number (xxx-xxx-xxxx)”);
-String phone = in.next();
-System.out.println(“insert name”);
-String name = in.next();
-System.out.println(“insert make”);
-String make= in.next();
-System.out.println(“insert model”);
-String model = in.next();
-System.out.println(“Insert color”);
-String color= in.next();
-System.out.println(“Insert License Plate”);
-String licensePlate= in.next();
-System.out.println(“Insert Drivers License”);
-String driversLicense = in.next();
-System.out.println(“Insert Car Level “);
-System.out.println(“1:Standard Sedan_4 person ; 2: Luxury Car_4 person ; 3: large vehicle_5-8 person ”);
-String carLever = in.next();
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
 
-String stmt = "INSERT INTO AllDrivers VALUES (‘“ + Phone + “‘, ‘” + Name + “‘, ‘” + make +“‘, ‘” + model +“‘, ‘” + color  + “‘, ‘” + licensePlate  + “‘, ‘” + driversLicense   + “‘, ‘” +carLevel “‘)”; 
-stat.execute(stmt);
-public static void removeDriver()
-//removeDriver - remove driver from array 
-Connection conn =appMain.getConnection()
-Statement stat=conn.createStatement();
-String stmt = "SET Phone FROM AllDrivers WHERE Phone = ” + phone; 
-//phone is given in AppMain
-boolean hasResultSet = stat.execute(stmt);
-	if (hasResultSet){
-ResultSet result = stat.executeQuery(stmt);
-System.out.println(result.getString(0));//maybe 1??         
-}else{
-             System.out.println("No driver found.");
-}
-result.close();
-public static void listDrivers(){
-//listDrivers - lists all drivers in system 
-boolean hasResultSet = stat.execute("SELECT Name FROM AllDrivers”);
-if (hasResultSet){
-		ResultSet result = stat.executeQuery(stmt);
-             	while (result.next()) {          			          
-             		for(int i = 1 ; i <= ; i++){	//Print one row
-System.out.printf("%15s",result.getString(i)); //Print one element of a row
-       			}
-System.out.println(); //Move to the next line to print the next row.           
-            		 }
-	}else{
-          		System.out.println("Drivers not found");
-              }
+public class DriverList {
+	
+	public static void addDriver () {
+	//addDriver - add a driver to array
+		try (Connection conn =appMain.getConnection()){
+			Statement stat=conn.createStatement();
+			Scanner in = new Scanner(System.in);
+			System.out.println("insert phone number (xxx-xxx-xxxx)");
+			String phone = in.next();
+			System.out.println("insert name");
+			String name = in.next();
+			System.out.println("insert make");
+			String make= in.next();
+			System.out.println("insert model");
+			String model = in.next();
+			System.out.println("insert color");
+			String color= in.next();
+			System.out.println("insert License Plate");
+			String licensePlate= in.next();
+			System.out.println("Insert Drivers License");
+			String driversLicense = in.next();
+			System.out.println("Insert Car Level");
+			System.out.println("1:Standard Sedan_4 person ; 2: Luxury Car_4 person ; 3: large vehicle_5-8 person");
+			String carLevel = in.next();
+			String stmt = "INSERT INTO AllDrivers VALUES ('" + phone + "', '" + name + "', '" + make + "', '" + model + "', '" + color  + "', '" + licensePlate  + "', '" + driversLicense   + "', '" + carLevel "'"); 
+			stat.execute(stmt);
+		}
+	}
+	
+	public static void removeDriver() {
+	//removeDriver - remove driver from array 
+		Connection conn =appMain.getConnection()
+		Statement stat=conn.createStatement();
+		System.out.println("Enter ID of driver you wish to delete.");
+		Scanner in = new Scanner(System.in);
+		String phone = in.next();
+		String stmt = "DELETE FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+		stat.execute(stmt);
+	}
+	public static void listDrivers(){
+	//listDrivers - lists all drivers in system 
+		Connection conn =appMain.getConnection()
+		Statement stat=conn.createStatement();
+		String stmt = "SELECT Name FROM AllDrivers";
+		boolean hasResultSet = stat.execute(stmt);
+		if (hasResultSet){
+			ResultSet result = stat.executeQuery(stmt);
+			while (result.next()) {          			          
+				int i = 0;
+				System.out.printf("%15s/n",result.getString(i)); //Print one element of a row
+				i++;         
+			}
+		}else{
+			System.out.println("Drivers not found");
+		}
+	}
 
-public static void findDriver(){
-//findDriver - find a driver name by using their Driver ID
-Scanner in = new Scanner(System.in);
-System.out.println(“Enter ID of driver name you want”);
-Phone = in.next();
-String stmt = “SELECT Phone FROM AllDrivers WHERE Phone = ” + phone; 
-boolean hasResultSet = stat.execute(stmt);
-	if (hasResultSet){
-ResultSet result = stat.executeQuery(stmt);
-System.out.println(result.getString(0));//maybe 1??         
-}else{
-             System.out.println("No driver found.");
+	public static void findDriver(){
+	//findDriver - find a driver name by using their Driver ID
+		Connection conn =appMain.getConnection()
+		Statement stat=conn.createStatement();
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter ID of driver name you want");
+		String phone = in.next();
+		String stmt = "SELECT Phone FROM AllDrivers WHERE Phone = " + phone; 
+		boolean hasResultSet = stat.execute(stmt);
+		if (hasResultSet){
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.println(result.getString(0));//maybe 1?? 
+			result.close();
+		}else{
+	             System.out.println("No driver found.");
+		}
+	}
+	
+
 }
-result.close();
