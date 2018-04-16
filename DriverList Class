@@ -65,23 +65,19 @@ public class DriverList {
 		}
 	}
 
-	public static void findDriver() throws SQLException{
+	public static String findDriver(String phone) throws SQLException{
 	//findDriver - find a driver name by using their Driver ID
 		try (Connection conn = SimpleDataSource.getConnection()){
 			Statement stat= conn.createStatement();
-			Scanner in = new Scanner(System.in);
 			System.out.println("Enter ID of driver name you want");
-			String phone = in.next();
 			String stmt = "SELECT Phone FROM AllDrivers WHERE Phone = " + phone; 
 			boolean hasResultSet = stat.execute(stmt);
 			if (hasResultSet){
 				ResultSet result = stat.executeQuery(stmt);
-				System.out.println(result.getString(0));//maybe 1?? 
-				result.close();
+				return(result.getString(0));//maybe 1?? 
 			}else{
-				System.out.println("No driver found.");
+				return("No driver found.");
 			}
-			in.close();
 		}
 	}
 	
