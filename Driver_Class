@@ -39,13 +39,13 @@ public class Driver{
 	public static void setRideLevel(int phone) throws SQLException{
 		try (Connection conn = SimpleDataSource.getConnection()){
 			Scanner in = new Scanner(System.in);
-			System.out.println("Enter new level.\n'1' for car type ***\n'2' for car type ***\n'3' for car type ***\n'4' for car type ***");
+			System.out.println("Enter new level.\n'1' for Standard Car\n'2' for Luxury Car\n'3' for cars up to 8 riders");
 			//figure out car types!!
 			String level = in.nextLine();
 			level.trim();
-			while (!level.equals("1")||!level.equals("2")||!level.equals("3")||!level.equals("4")) {
+			while (!level.equals("1")||!level.equals("2")||!level.equals("3")) {
 				System.out.println("Invalid car level.");	
-				System.out.println("Enter new level.\n'1' for car type ***\n'2' for car type ***\n'3' for car type ***\n'4' for car type ***");
+				System.out.println("Enter new level.\n'1' for Standard Car\n'2' for Luxury Car\n'3' for cars up to 8 riders");
 				//same as line 42.  Find out car types! how many?
 			}
 			Statement stat = conn.createStatement();
