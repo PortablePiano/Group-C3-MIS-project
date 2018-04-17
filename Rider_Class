@@ -1,42 +1,78 @@
-public class Rider 
-//Storage of riders information, basically like logos
+import java.sql.Statement;
+import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public static void getName(
-//getName - gets rider’s name
-String stmt = "SELECT Name FROM AllRiders WHERE Phone = ” + phone; 
-//phone is given in AppMain
-boolean hasResultSet = stat.execute(stmt);
-	if (hasResultSet){
-ResultSet result = stat.executeQuery(stmt);
-System.out.println(result.getString(0));//maybe 1??         
-}else{
-             System.out.println("No driver found.");
-}
-result.close();
-}
- 	
-public static void setID(
-//setID - sets rider’s customer ID number….also if they wanted to change their number, which is there ID
-String stmt = "SET Phone Number FROM AllRiders WHERE Phone = ” + phone; 
-//phone is given in AppMain
-boolean hasResultSet = stat.execute(stmt);
-	if (hasResultSet){
-ResultSet result = stat.executeQuery(stmt);
-System.out.println(result.getString(0));//maybe 1??         
-}else{
-             System.out.println("No driver found.");
-}
-result.close();
+public class Rider {
 
-public static void setName(
-//setName - sets rider’s name 
-String stmt = "SET  Name FROM AllRiders WHERE Phone = ” + phone; 
-//phone is given in AppMain
-boolean hasResultSet = stat.execute(stmt);
-	if (hasResultSet){
-ResultSet result = stat.executeQuery(stmt);
-System.out.println(result.getString(0));//maybe 1??         
-}else{
-             System.out.println("No driver found.");
+	public static String getName(String phone) throws SQLException{
+	//getName - gets rider’s name given their ID/Phone number
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat = conn.createStatement();
+			String stmt = "SELECT Name FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			//phone is given in AppMain
+			boolean hasResultSet = stat.execute(stmt);
+			if (hasResultSet){
+				ResultSet result = stat.executeQuery(stmt);
+				return(result.getString(0));//maybe 1??         
+			}else{
+				return("No rider found.");
+			}	
+		}
+	}
+		 	
+	public static void setName(String phone) throws SQLException{
+	//setID - sets rider’s name given their ID/Phone number
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			System.out.println("enter new name");
+			Scanner in = new Scanner(System.in);
+			String newName = in.next();
+			String stmt = "Update AllRiders SET Phone Number = '" + newName + "' WHERE Phone Number = '" + phone + "'"; 
+			//phone is given in AppMain
+			stat.executeUpdate(stmt);
+			in.close();
+		}
+	}
+			
+	public static void setCreditCard (String phone) throws SQLException{
+	//setCreditCard - sets rider's credit card given phone/ID
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			System.out.println("enter new credit card number");
+			Scanner in = new Scanner(System.in);
+			String creditCard = in.next();
+			while (creditCard.length() != 19) {
+				System.out.println("Credit cards must be 19 characters long.  Enter valid credit card");
+				creditCard = in.next();
+			}
+			System.out.println("valid credit card");
+			String stmt = "Update AllRiders SET Credit Card = '" + creditCard + "' WHERE Phone Number = '" + phone + "'";
+			//phone is given in AppMain
+			stat.executeUpdate(stmt);
+			in.close();
+		}
+	}
+	
+	public static String getCreditCard(String phone) throws SQLException{
+	//getName - gets rider’s Credit Card given their ID/Phone number
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat = conn.createStatement();
+			String stmt = "SELECT Credit Card FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			//phone is given in AppMain
+			boolean hasResultSet = stat.execute(stmt);
+			if (hasResultSet){
+				ResultSet result = stat.executeQuery(stmt);
+				return(result.getString(0));//maybe 1??         
+			}else{
+				return("No rider found.");
+			}	
+		}
+	}
+	
+	public static void requestRide(String phone) throws SQLException{
+		
+	}
+	
 }
-result.close();
