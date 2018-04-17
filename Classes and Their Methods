@@ -31,3 +31,13 @@ class Driver
 		//sets user's (a driver) ride from their ID
 	void setName(int phone)
 		//sets user's (a driver) name from their ID
+class Rider
+	String getName(String phone)
+		//gets rider’s name given their ID/Phone number
+	void setName(String phone)
+		//sets rider’s name given their ID/Phone number
+	void setCreditCard (String phone)
+		//sets rider's credit card given phone/ID
+	String getCreditCard(String phone)
+		//gets rider’s Credit Card given their ID/Phone number
+	void requestRide(String phone)	
