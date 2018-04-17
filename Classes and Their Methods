@@ -1,14 +1,33 @@
 class DriverList
-    void addDriver()
-        //adds driver to AllDrivers
-    void removeDriver()
-        //removes driver from AllDrivers
-    void listDrivers()
-        //lists all driver names from AllDrivers
-    String findDriver(String phone)
-	      //finds a driver name by using their Driver ID
-    boolean isDriver(String phone)
-        //returns true or false if ID has a driver associated with it
-    void readTxtFile()
-		    //reads text files and adds them to AllDrivers
-  
+	void addDriver()
+        	//adds driver to AllDrivers
+    	void removeDriver()
+        	//removes driver from AllDrivers
+    	void listDrivers()
+        	//lists all driver names from AllDrivers
+    	String findDriver(String phone)
+        	//finds a driver name by using their Driver ID
+    	boolean isDriver(String phone)
+        	//returns true or false if ID has a driver associated with it
+    	void readTxtFile()
+		//reads text files and adds them to AllDrivers
+class RiderList
+	void addRider()
+		//adds Rider to AllRiders
+	void removeRider()
+		//removes rider from AllRiders
+	void listRider()
+		//lists all riders in AllRiders
+	String findRider(String phone)
+		//finds rider name by using the ID/phone number
+	boolean isRider(String phone)
+		//returns true or false if ID has a rider associated with it
+class Driver
+	String getName(int phone)
+		//gets user's (a driver) name from their ID
+	String getRideLevel(int phone)
+		//gets user's (a driver) ride level from their ID
+	void setRideLevel(int phone)
+		//sets user's (a driver) ride from their ID
+	void setName(int phone)
+		//sets user's (a driver) name from their ID
