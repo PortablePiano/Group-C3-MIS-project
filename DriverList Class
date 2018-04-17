@@ -1,3 +1,4 @@
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,5 +82,38 @@ public class DriverList {
 		}
 	}
 	
+	public static void readTxtFile(){
+		//reads text files and them in arrays lists
+		//last updated 4/15
+		File file = new File("drive.txt");
+		Scanner out = new Scanner(file);
+		String phone = "";
+		String name = "";
+		String make = "";
+		String model = "";
+		String color = "";
+		String licencePlate = "";
+		String licence = "";
+		String carLevel = "";
+		int payRate = 0;
+		while (out.hasNextLine()){
+			phone = out.next();
+			phone = out.next();
+			name = out.next();
+			make = out.next();
+			model = out.next();
+			color = out.next();
+			licencePlate = out.next();
+			licence = out.next();
+			carLevel = out.next();
+			payRate = out.nextInt();
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "INSERT INTO AllDrivers VALUES (" + phone + "', '" + name + "', '" + make + "', '" + model + "', '" + color + "', '" + licencePlate + "', '" + licence + "', '" + "'" + carLevel + "', '" + payRate + ")";
+			stat.execute(stmt);
+		}
+		out.close();
+	}
 
+	
 }
