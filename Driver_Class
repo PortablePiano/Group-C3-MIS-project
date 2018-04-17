@@ -50,7 +50,7 @@ public class Driver{
 			}
 			Statement stat = conn.createStatement();
 			String stmt = "UPDATE AllDrivers SET Car Level = '" + level + "' WHERE Phone Number = '" + phone + "'";
-			stat.execute(stmt);
+			stat.executeUpdate(stmt);
 			System.out.println("Ride level updated");
 			in.close();
 		}
@@ -64,7 +64,7 @@ public class Driver{
 			in.close();
 			Statement stat=conn.createStatement();
 			String stmt = "UPDATE AllDrivers SET Name = '" + name + "' WHERE Phone Number = '" + phone + "'";
-			stat.execute(stmt);
+			stat.executeUpdate(stmt);
 			System.out.println("Name updated");
 		}
 	}
