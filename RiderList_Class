@@ -66,8 +66,20 @@ public class RiderList {
 			}else{
 				return("No rider found.");
 			}
+		}	
+	}
+	
+	public static boolean isRider(String phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllRiders WHERE Phone = " + phone; 
+			boolean hasResultSet = stat.execute(stmt);
+			if (hasResultSet){
+				return true;
+			}else{
+				return false;
+			}
 		}
-			
 	}
 	
 	
