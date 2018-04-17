@@ -8,6 +8,9 @@ Category Headings (in order):
   License Plate
   Drivers License Number
   Ride Level
+              $0.75 level 1 Standard
+              $0.90 level 2 Luxury Car
+              $0.80 level 3 Up to 8 riders
   Pay Rate
 
 Table for Riders (SQL); AllRiders
