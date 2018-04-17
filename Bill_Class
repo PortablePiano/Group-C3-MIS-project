@@ -1,3 +1,17 @@
 Public class bill 
 public static void calcBill(
-//calcBill - calculates total cost for ride. Informs riders if they were charged extra depending on levels. $0.75 level 1 (Standard 4 rider), $0.90 level 2 (Luxury Car) , $0.80 level 3 (Plus 5-8 riders)
+//calcBill - calculates total cost for ride. Informs riders if they were charged extra depending on levels. 
+//$0.75 level 1 (Standard 4 rider), $0.90 level 2 (Luxury Car) , $0.80 level 3 (Plus 5-8 riders)
+
+//double tax = .15
+
+// if level ==1 
+    //double costPerM = .75 * milesTraveled;
+// else if level ==2
+    //double costPerM =.90 * milesTraveled;
+// else
+    //double costPerM = .80 * milesTraveled;
+    
+   //double totalBill = costPerM * tax
+   
+ //Example....then return totalBill to the rider's ride total
