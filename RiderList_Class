@@ -1,12 +1,14 @@
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
 public class RiderList {
 
-	public static void addRider() {
+	public static void addRider() throws SQLException {
 		//addRider - add a rider to array
-		try (Connection conn =appMain.getConnection()){
+		try (Connection conn = SimpleDataSource.getConnection()){
 			Statement stat=conn.createStatement();
 			Scanner in = new Scanner(System.in);
 			System.out.println("insert phone number (xxx-xxx-xxxx)");
@@ -17,50 +19,53 @@ public class RiderList {
 			String creditCard = in.next();
 			String stmt = "INSERT INTO AllRiders VALUES '" + phone + "', '" + name + "', '" + creditCard + "'"; 
 			stat.execute(stmt);
+			in.close();
 			}
 		}
 
-	public static void removeRider(String phone){	
+	public static void removeRider(String phone) throws SQLException{	
 	//removeRider - remove rider from array
-		Connection conn =appMain.getConnection()
-		Statement stat=conn.createStatement();
-		String stmt = "DELETE FROM AllRiders WHERE Phone = '" + phone + "'"; 
-		//phone is given in AppMain
-		stat.execute(stmt);
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "DELETE FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			//phone is given in AppMain
+			stat.execute(stmt);
+		}
 	}
 
-	public static void listRider(){
+	public static void listRider() throws SQLException{
 	//listRider - lists all rider in system
-		Connection conn =appMain.getConnection();
-		Statement stat=conn.createStatement();
-		String stmt = "SELECT Name FROM AllRiders";
-		boolean hasResultSet = stat.execute(stmt);
-		if (hasResultSet){
-			ResultSet result = stat.executeQuery(stmt);
-			while (result.next()) {          			          
-				int i = 0;
-				System.out.printf("%15s\n",result.getString(i)); //Print one element of a row
-			    i++;
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT Name FROM AllRiders";
+			boolean hasResultSet = stat.execute(stmt);
+			if (hasResultSet){
+				ResultSet result = stat.executeQuery(stmt);
+				while (result.next()) {          			          
+					int i = 0;
+					System.out.printf("%15s\n",result.getString(i)); //Print one element of a row
+					i++;
+				}
+			}else{
+				System.out.println("riders not found");
 			}
-		}else{
-		System.out.println("riders not found");
 		}
 	}
 
 
-	public static void findRider(String phone){
+	public static String findRider(String phone) throws SQLException{
 	//findRider - find a rider name by using their customer ID
-		Connection conn =appMain.getConnection();
-		Statement stat=conn.createStatement();
-		String stmt = "SELECT Name FROM AllRiders WHERE Phone = '" + phone + "'"; 
-		//phone is given in AppMain
-		boolean hasResultSet = stat.execute(stmt);
-		if (hasResultSet){
-			ResultSet result = stat.executeQuery(stmt);
-			System.out.println(result.getString(0));//maybe 1??
-			result.close();
-		}else{
-			System.out.println("No driver found.");
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "SELECT Name FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			//phone is given in AppMain
+			boolean hasResultSet = stat.execute(stmt);
+			if (hasResultSet){
+				ResultSet result = stat.executeQuery(stmt);
+				return(result.getString(0));//maybe 1??
+			}else{
+				return("No rider found.");
+			}
 		}
 			
 	}
