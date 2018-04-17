@@ -59,7 +59,7 @@ public class AppMain {
 			
 			in.close();
 			
-			stat.execute("CREATE TABLE AllDrivers (Phone CHAR(12), Name VARCHAR(20), Make VARCHAR(20), Model VARCHAR(20), Color VARCHAR(10), License Plate CHAR(6), Drivers License Number (9), Ride Level CHAR(1), Pay Rate VARCHAR(10)");
+			stat.execute("CREATE TABLE AllDrivers (Phone CHAR(12), Name VARCHAR(20), Make VARCHAR(20), Model VARCHAR(20), Color VARCHAR(10), License Plate CHAR(6), Drivers License Number CHAR(9), Ride Level CHAR(1), Pay Rate VARCHAR(10)");
 			//create table for the driver information
 			for(int i=0; i<carMake.size(); i++){//insert all the values into an SQL database
 				stat.execute("INSERT INTO AllDriver VALUES('" + phoneNum.get(i) + "', '" + driverName.get(i) + "', '" + carMake.get(i) + "', '" + carModel.get(i) + "', '" + carColor.get(i) + "', '" + licensePlate + "', '" + driversLicense + "', '" + carLevel.get(i) + "', '" + paycheck.get(i) +")");
@@ -92,7 +92,7 @@ public class AppMain {
 						String attempt = "";
 						Scanner mgmt = new Scanner(System.in);
 						System.out.println("Please enter the management password: ");
-						System.out.println("If you want to go back to the menu, enter (S)");
+						System.out.println("Enter (S) to go back to the main menu");
 						attempt = mgmt.next();
 					
 						if(attempt.equals(pass)){
@@ -103,9 +103,9 @@ public class AppMain {
 								System.out.println("What function would you like to perform?");
 								System.out.println("(1) Add Driver");
 								System.out.println("(2) Remove Driver");
-								System.out.println("(3) View Rider List");
-								System.out.println("(4) Find Rider");
-								System.out.println("(5) Total Miles of Rides for Today");
+								System.out.println("(3) View the Driver List");
+								System.out.println("(4) Find a driver");
+								System.out.println("(5) ");
 								s2 = s1.next();
 								
 								if(s2.equals("1")){
@@ -117,15 +117,20 @@ public class AppMain {
 								}
 								
 								else if(s2.equals("3")){
-									RiderList.listRider();
+									DriverList.listDrivers();
 								}
 								
 								else if(s2.equals("4")){
-									RiderList.findRider(); //finds rider from riderlist
+									Scanner manager4 = new Scanner(System.in);
+									String input = "";
+									System.out.println("Enter the ID of the employee you want to find:");
+									input=manager4.next();
+									System.out.println(DriverList.findDriver(input));
+									manager4.close();
 								}
 								
 								else if(s2.equals("5")){
-									RiderShareManager.getTotalMiles(); //gets total number of miles that day
+									
 								}
 								
 							}
@@ -142,7 +147,7 @@ public class AppMain {
 					
 				}
 				
-				if(hold.equalsIgnoreCase("E")){
+				else if(hold.equalsIgnoreCase("E")){
 					boolean employeeloop = true;
 					while(employeeloop){
 						Scanner s3 = new Scanner(System.in);
@@ -153,35 +158,35 @@ public class AppMain {
 						s4 = s3.next();
 						present = DriverList.isDriver(s4);
 						
-						if(present){
-							boolean menuloop = true;
-							while(menuloop){
+						if(present){//checks if the entered driver ID is in the database
+							boolean employeeloop1 = true;
+							while(employeeloop1){
 								Scanner s5 = new Scanner(System.in);
 								String employeechoice = "";
 								System.out.println("What would you like to do?");
-								System.out.println("Press (S) to go back to the main menu");
-								System.out.println("(1) Change Name");
-								System.out.println("(2) Change Car Level");
-								System.out.println("(3) Pick up a Ride");
+								System.out.println("(1) Receive a rider to pick up");
+								System.out.println("(2) ");
+								System.out.println("(3) ");
 								System.out.println("(4) ");
 								System.out.println("(5) ");
+								System.out.println("Enter (S) to go back to the main menu");
 								employeechoice = s5.next();
 								
 								if(employeechoice.equalsIgnoreCase("S")){
-									menuloop = false;
+									employeeloop1 = false;
 									employeeloop = false;
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("1")){
-									Driver.setName();
+									
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("2")){
-									Driver.setRideLevel();
+									
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("3")){
-									Driver.getRideLevel();
+									
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("4")){
@@ -207,12 +212,69 @@ public class AppMain {
 					}
 				}
 					
-				if(hold.equalsIgnoreCase("C")){
-					
+				else if(hold.equalsIgnoreCase("C")){
+					boolean customerloop1 = true;
+					while (customerloop1){
+						Scanner s6 = new Scanner(System.in);
+						String customerstatus = "";
+						System.out.println("Are you a new or existing customer?");
+						System.out.println("Enter (R) to request a pickup");
+						System.out.println("Enter (N) if you are a new Customer");
+						System.out.println("Enter (S) to go back to the main menu");
+						customerstatus = s6.next();
+						s6.close();
+						
+						if(customerstatus.equalsIgnoreCase("S")){
+							customerloop1 = false;
+						}
+						else if(customerstatus.equalsIgnoreCase("R")){
+							String existingcustomer = "";
+							Scanner customer1 = new Scanner(System.in);
+							System.out.println("Please enter your phone number (XXX-XXX-XXXX)");
+							existingcustomer = customer1.next();
+							if(RiderList.isRider(existingcustomer)){
+								//they can now request a ride
+								//make sure to end the loop
+							}
+							else{
+								System.out.println("Sorry, that phone number was not in our records.");
+								System.out.println();
+								//they are brought back to the customer menu
+							}
+							
+						}
+						
+						else if(customerstatus.equalsIgnoreCase("N")){
+							RiderList.addRider();
+							Scanner customer3 = new Scanner(System.in);
+							String possibleride = "";
+							System.out.println("Would you like to request a ride now?");
+							System.out.println("Enter (Y) for Yes");
+							System.out.println("Enter (N) for No");
+							possibleride = customer3.next();
+							if(possibleride.equalsIgnoreCase("Y")){
+								
+								//customers can request a ride
+								
+							}
+							else{
+								customerloop1 = false;
+							}
+							
+						}
+						
+						else{
+							System.out.println("That is not a valid option");
+						}
+					}
 				}
 				
+				else{
+					System.out.println("That is not a valid option");
+					System.out.println();
 				}
-				
+				}
+
 				
 			}
 		}
