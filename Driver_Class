@@ -1,70 +1,72 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
 public class Driver{
 //Using a driver drive.txt that contains the drivers names, car type (make, model, color,  license plate), driver’s ID.
 
-Public static void readTxtFile()
-//reads text files and them in arrays lists
-File file = new File(drive.txt);
-Scanner in = new Scanner(file);
-While (in.hasnextline()){
-names.add(in.next());
-make.add(in.next());
-model.add(in.next());
-color.add(in.next());
-licensePlate.add(in.next());
-names.add(in.nextInt());
-}
-
-Public static string getName(int id)
-//getName - gets driver’s name provided driver ID
-for(int i = 0; i < ids.length(); i++){
-	If (id == ids[i]){
-		location = i;
-Return names.get(i);
+	public static String getName(int phone) throws SQLException {
+	//getName - gets driver’s name provided driver ID
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT Name FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			boolean hasResultSet = stat.execute(stmt);
+			if (hasResultSet){
+				ResultSet result = stat.executeQuery(stmt);
+				return(result.getString(0));//maybe 1?? 
+			}else{
+				return("No name found.");
+			}
+		}
+	}
+	
+	public static String getRideLevel(int phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT Ride Level FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			boolean hasResultSet = stat.execute(stmt);
+			if (hasResultSet){
+				ResultSet result = stat.executeQuery(stmt);
+				return(result.getString(0));//maybe 1?? 
+			}else{
+				return ("No ride level found");
+			}
+		}
+	}
+	
+	public static void setRideLevel(int phone) throws SQLException{
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Scanner in = new Scanner(System.in);
+			System.out.println("Enter new level.\n'1' for car type ***\n'2' for car type ***\n'3' for car type ***\n'4' for car type ***");
+			//figure out car types!!
+			String level = in.nextLine();
+			level.trim();
+			while (!level.equals("1")||!level.equals("2")||!level.equals("3")||!level.equals("4")) {
+				System.out.println("Invalid car level.");	
+				System.out.println("Enter new level.\n'1' for car type ***\n'2' for car type ***\n'3' for car type ***\n'4' for car type ***");
+				//same as line 42.  Find out car types! how many?
+			}
+			Statement stat = conn.createStatement();
+			String stmt = "UPDATE AllDrivers SET Car Level = '" + level + "' WHERE Phone Number = '" + phone + "'";
+			stat.execute(stmt);
+			System.out.println("Ride level updated");
+			in.close();
+		}
+	}
+	
+	public static void setName(int phone) throws SQLException{
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Scanner in = new Scanner(System.in);
+			System.out.println("Enter new name");
+			String name = in.nextLine();
+			in.close();
+			Statement stat=conn.createStatement();
+			String stmt = "UPDATE AllDrivers SET Name = '" + name + "' WHERE Phone Number = '" + phone + "'";
+			stat.execute(stmt);
+			System.out.println("Name updated");
+		}
 	}
 }
-System.out.println(“Not a valid ID”);
-Break;
 
-Public static string getCar(String license)
-//getCar - get driver’s car type provided license plate 
-for(int i = 0; i < model.length(); i++){
-	If (license == licensePlate[i]){
-Return model.get(i);
-	}
-}
-System.out.println(“Not a valid license plate”);
-Break;
-
-Public static int getId(String name
-//getID - gets driver’s ID number provided name
-for(int i = 0; i < id.length(); i++){
-	If (name == names[i]){
-Return.get(i);
-	}
-}
-System.out.println(“Not a valid name”);
-Break;
-
-Public static void setId(String name, int id
-//setID - changes driver ID given you provide name and new ID
-	for(int i = 0; i < names.length(); i++){
-	If (name == names[i]){
-	ids.set(i, id);
-	}
-}
-System.out.println(“Not a valid name”);
-
-Public static void setName(int id, String name
-//setName - sets driver’s name given you provide ID and new name
-for(int i = 0; i < names.length(); i++){
-	If (id == ids[i]){
-	names.set(i, name);
-	}
-}
-System.out.println(“Not a valid ID”);
-
-Public static void setCar(
-//setCar - sets driver’s car type (including license plate)
-
-Public static void addCar(String name
-//addCar - 
