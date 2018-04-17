@@ -104,8 +104,8 @@ public class AppMain {
 								System.out.println("(1) Add Driver");
 								System.out.println("(2) Remove Driver");
 								System.out.println("(3) View Rider List");
-								System.out.println("(4) ");
-								System.out.println("(5) ");
+								System.out.println("(4) Find Rider");
+								System.out.println("(5) Total Miles of Rides for Today");
 								s2 = s1.next();
 								
 								if(s2.equals("1")){
@@ -121,11 +121,11 @@ public class AppMain {
 								}
 								
 								else if(s2.equals("4")){
-									
+									RiderList.findRider(); //finds rider from riderlist
 								}
 								
 								else if(s2.equals("5")){
-									
+									RiderShareManager.getTotalMiles(); //gets total number of miles that day
 								}
 								
 							}
@@ -160,9 +160,9 @@ public class AppMain {
 								String employeechoice = "";
 								System.out.println("What would you like to do?");
 								System.out.println("Press (S) to go back to the main menu");
-								System.out.println("(1) ");
-								System.out.println("(2) ");
-								System.out.println("(3) ");
+								System.out.println("(1) Change Name");
+								System.out.println("(2) Change Car Level   //	1:Stardard	2:Luxury	3:Plus");
+								System.out.println("(3) Pick up a Ride");
 								System.out.println("(4) ");
 								System.out.println("(5) ");
 								employeechoice = s5.next();
@@ -173,15 +173,15 @@ public class AppMain {
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("1")){
-									
+									Driver.setName();
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("2")){
-									
+									Driver.setRideLevel();
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("3")){
-									
+									Driver.getRideLevel();
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("4")){
