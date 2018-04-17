@@ -161,7 +161,7 @@ public class AppMain {
 								System.out.println("What would you like to do?");
 								System.out.println("Press (S) to go back to the main menu");
 								System.out.println("(1) Change Name");
-								System.out.println("(2) Change Car Level   //	1:Stardard	2:Luxury	3:Plus");
+								System.out.println("(2) Change Car Level");
 								System.out.println("(3) Pick up a Ride");
 								System.out.println("(4) ");
 								System.out.println("(5) ");
