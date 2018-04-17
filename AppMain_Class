@@ -77,6 +77,7 @@ public class AppMain {
 				System.out.println("(C) Customer");
 				System.out.println("(Q) Quit");
 				hold = user.next();
+				System.out.println();
 				
 				if(hold.equalsIgnoreCase("Q")){
 					on = false;
@@ -91,40 +92,129 @@ public class AppMain {
 						String attempt = "";
 						Scanner mgmt = new Scanner(System.in);
 						System.out.println("Please enter the management password: ");
-						System.out.println("If you want to go back to the menu, enter: (S)");
+						System.out.println("If you want to go back to the menu, enter (S)");
 						attempt = mgmt.next();
 					
 						if(attempt.equals(pass)){
-							Scanner s1 = new Scanner(System.in);
-							String s2 = "";
-							System.out.println("What function would you like to perform?");
-							System.out.println("(1) ");
-							System.out.println("(2) ");
-							System.out.println("(3) ");
-							System.out.println("(4) ");
-							System.out.println("(5) ");
-							
+							boolean loop1 = true;
+							while(loop1){
+								Scanner s1 = new Scanner(System.in);
+								String s2 = "";
+								System.out.println("What function would you like to perform?");
+								System.out.println("(1) Add Driver");
+								System.out.println("(2) Remove Driver");
+								System.out.println("(3) View Rider List");
+								System.out.println("(4) ");
+								System.out.println("(5) ");
+								s2 = s1.next();
+								
+								if(s2.equals("1")){
+									DriverList.addDriver();
+								}
+								
+								else if(s2.equals("2")){
+									DriverList.removeDriver();
+								}
+								
+								else if(s2.equals("3")){
+									RiderList.listRider();
+								}
+								
+								else if(s2.equals("4")){
+									
+								}
+								
+								else if(s2.equals("5")){
+									
+								}
+								
+							}
 						}
-					
-						else if(attempt.equalsIgnoreCase("S")){
-							loop = false;
-						}
-					
-						else{
-							System.out.println("Sorry, that is incorrect.");
-						}
+						 else if(attempt.equalsIgnoreCase("S")){
+								loop = false;
+								//stops the loop if the user presses "s"
+							}
+						
+						 else{
+								System.out.println("Sorry, that is incorrect, please try again.");
+							}
 					}
 					
 				}
 				
 				if(hold.equalsIgnoreCase("E")){
+					boolean employeeloop = true;
+					while(employeeloop){
+						Scanner s3 = new Scanner(System.in);
+						String s4 = "";
+						boolean present;
+						System.out.println("Press (Q) to go back to the main menu");
+						System.out.println("Please enter your employee ID: ");
+						s4 = s3.next();
+						present = DriverList.isDriver(s4);
+						
+						if(present){
+							boolean menuloop = true;
+							while(menuloop){
+								Scanner s5 = new Scanner(System.in);
+								String employeechoice = "";
+								System.out.println("What would you like to do?");
+								System.out.println("Press (S) to go back to the main menu");
+								System.out.println("(1) ");
+								System.out.println("(2) ");
+								System.out.println("(3) ");
+								System.out.println("(4) ");
+								System.out.println("(5) ");
+								employeechoice = s5.next();
+								
+								if(employeechoice.equalsIgnoreCase("S")){
+									menuloop = false;
+									employeeloop = false;
+								}
+								
+								else if(employeechoice.equalsIgnoreCase("1")){
+									
+								}
+								
+								else if(employeechoice.equalsIgnoreCase("2")){
+									
+								}
+								
+								else if(employeechoice.equalsIgnoreCase("3")){
+									
+								}
+								
+								else if(employeechoice.equalsIgnoreCase("4")){
+									
+								}
+								
+								else if(employeechoice.equalsIgnoreCase("5")){
+									
+								}
+								else{
+									System.out.println("That is not a valid option");
+								}
+							}
+						}
+						else if (s4.equalsIgnoreCase("Q")){
+							employeeloop = false;
+						}
+						else{
+							System.out.println("That is not a valid employee ID, please try again");
+							System.out.println();
+						}
 					
+					}
 				}
-				
+					
 				if(hold.equalsIgnoreCase("C")){
 					
 				}
+				
+				}
+				
+				
 			}
 		}
 	}
-}
+
