@@ -56,10 +56,8 @@ public class DriverList {
 			boolean hasResultSet = stat.execute(stmt);
 			if (hasResultSet){
 				ResultSet result = stat.executeQuery(stmt);
-				while (result.next()) {          			          
-					int i = 0;
-					System.out.printf("%15s/n",result.getString(i)); //Print one element of a row
-					i++;         
+				for (int i = 0; result.next(); i++) {          			          	
+					System.out.printf("%15s/n",result.getString(i)); //Print one element of a row       
 				}
 			}else{
 				System.out.println("Drivers not found");
@@ -82,7 +80,7 @@ public class DriverList {
 		}
 	}
 	
-	public static boolean isDriver(String phone) {
+	public static boolean isDriver(String phone) throws SQLException {
 		try (Connection conn = SimpleDataSource.getConnection()){
 			Statement stat= conn.createStatement();
 			String stmt = "SELECT * FROM AllDrivers WHERE Phone = " + phone; 
@@ -96,7 +94,7 @@ public class DriverList {
 	}
 	
 	public static void readTxtFile() throws SQLException, FileNotFoundException{
-		//reads text files and them in arrays lists
+		//reads text files and adds them to AllDrivers
 		//last updated 4/15
 		File file = new File("drive.txt");
 		Scanner in = new Scanner(System.in);
