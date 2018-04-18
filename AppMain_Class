@@ -1,5 +1,3 @@
-package projectpackage;
-
 import java.sql.Connection;
 
 import java.sql.*;
@@ -62,7 +60,7 @@ public class AppMain {
 			stat.execute("CREATE TABLE AllDrivers (Phone CHAR(12), Name VARCHAR(20), Make VARCHAR(20), Model VARCHAR(20), Color VARCHAR(10), License Plate CHAR(6), Drivers License Number CHAR(9), Ride Level CHAR(1), Pay Rate VARCHAR(10)");
 			//create table for the driver information
 			for(int i=0; i<carMake.size(); i++){//insert all the values into an SQL database
-				stat.execute("INSERT INTO AllDriver VALUES('" + phoneNum.get(i) + "', '" + driverName.get(i) + "', '" + carMake.get(i) + "', '" + carModel.get(i) + "', '" + carColor.get(i) + "', '" + licensePlate + "', '" + driversLicense + "', '" + carLevel.get(i) + "', '" + paycheck.get(i) +")");
+				stat.execute("INSERT INTO AllDriver VALUES('" + phoneNum.get(i) + "', '" + driverName.get(i) + "', '" + carMake.get(i) + "', '" + carModel.get(i) + "', '" + carColor.get(i) + "', '" + licensePlate.get(i) + "', '" + driversLicense.get(i) + "', '" + carLevel.get(i) + "', '" + paycheck.get(i) +")");
 			}
 			
 			stat.execute("CREATE TABLE AllRiders (Phone CHAR(12), Name VARCHAR(20), Credit Card CHAR(19)");
