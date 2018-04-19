@@ -19,3 +19,10 @@ Category Headings:
   Name
   Credit Card
   
+Table for Rides (SQL); AllRides
+Category Headings
+  Rider Phone
+  Driver Phone
+  Car Level
+  Miles
+  Picked Up
