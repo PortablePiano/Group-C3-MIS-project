@@ -53,9 +53,7 @@ public class AppMain {
 			}
 			
 			in.close();
-			//stat.execute("DROP TABLE Test");
-			//String test = "CREATE TABLE Test " + "(id V)";
-			//stat.executeUpdate(test);
+
 			stat.execute("DROP TABLE ALLDrivers");
 			String sql = "CREATE TABLE AllDrivers " + "(Phone VARCHAR(25), " + "Name VARCHAR(25), " + "Make VARCHAR(25), " + "Model VARCHAR(25), " + "Color VARCHAR(25), "  + "License_Plate VARCHAR(25), " + "Drivers_License_Number VARCHAR(25), " + "Ride_Level VARCHAR(25))";
 			stat.executeUpdate(sql);
@@ -66,6 +64,12 @@ public class AppMain {
 			stat.execute("DROP TABLE AllRiders");
 			String sql2 = "CREATE TABLE AllRiders " + "(Phone VARCHAR(25), " + "Name VARCHAR(25), " + "Credit_Card VARCHAR(25))";
 			stat.executeUpdate(sql2);
+			String firstRider = "INSERT INTO AllRiders VALUES('516-228-9523','Tyler', '1234-4321-1234-4321')";
+			stat.executeUpdate(firstRider);
+			
+			stat.execute("DROP TABLE AllRides");
+			String sql3 = "CREATE TABLE AllRides " + "(Rider_Phone VARCHAR(25), " + "Driver_Phone VARCHAR(25), " + "Car_Level VARCHAR(25), " + "Miles INT, " + "Picked_Up BOOLEAN)";
+			stat.executeUpdate(sql3);
 			
 			boolean on = true;
 			while (on==true){
@@ -83,6 +87,7 @@ public class AppMain {
 					on = false;
 					stat.execute("DROP TABLE AllDrivers");
 					stat.execute("DROP TABLE AllRiders");
+					stat.execute("DROP TABLE AllRides");
 				}
 				
 				if(hold.equalsIgnoreCase("M")){
@@ -97,43 +102,89 @@ public class AppMain {
 					
 						if(attempt.equals(pass)){
 							boolean loop1 = true;
-							while(loop1){
-								Scanner s1 = new Scanner(System.in);
-								String s2 = "";
+							Scanner s1 = new Scanner(System.in);
+							while(loop1){						
+								int s2 = 0;
 								System.out.println("What function would you like to perform?");
+								System.out.println("(0) Return to the Main Menu");
 								System.out.println("(1) Add Driver");
 								System.out.println("(2) Remove Driver");
 								System.out.println("(3) View Rider List");
 								System.out.println("(4) View Driver List");
 								System.out.println("(5) Add Rider");
-								s2 = s1.next();
+								System.out.println("(6) Find Driver");
+								System.out.println("(7) Find Rider");
+								s2 = s1.nextInt();
 								
-								if(s2.equals("1")){
-									DriverList.addDriver();
+								if(s2 ==0) {
+									loop1 = false;
+									loop = false;
 								}
 								
-								else if(s2.equals("2")){
-									DriverList.removeDriver();
+								else if(s2 == 1){
+									System.out.println("insert phone number (xxx-xxx-xxxx)");
+									String phone = s1.next();
+									System.out.println("insert name");
+									String name = s1.next();
+									System.out.println("insert make");
+									String make= s1.next();
+									System.out.println("insert model");
+									String model = s1.next();
+									System.out.println("insert color");
+									String color= s1.next();
+									System.out.println("insert License Plate");
+									String licensePlate1= s1.next();
+									System.out.println("Insert Drivers License");
+									String driversLicense1 = s1.next();
+									System.out.println("Insert Car Level");
+									System.out.println("1:Standard Sedan_4 person ; 2: Luxury Car_4 person ; 3: large vehicle_5-8 person");
+									String carLevel1 = s1.next();
+									DriverList.addDriver(phone, name, make, model, color, licensePlate1, driversLicense1, carLevel1);
 								}
 								
-								else if(s2.equals("3")){
+								else if(s2 == 2){
+									System.out.println("What is the ID of driver you want to remove?");
+									String phone = s1.next();									
+									DriverList.removeDriver(phone);
+								}
+								
+								else if(s2 == 3){
 									RiderList.listRider();
 								}
 								
-								else if(s2.equals("4")){
-									DriverList.listDrivers();int i = 1;
+								else if(s2 == 4){
+									DriverList.listDrivers();
 								}
 								
-								else if(s2.equals("5")){
-									RiderList.addRider();
+								else if(s2 == 5){
+									System.out.println("insert phone number (xxx-xxx-xxxx)");
+									String phone = s1.next();
+									System.out.println("insert name");
+									String name = s1.next();
+									System.out.println("insert credit card (xxxx-xxxx-xxxx-xxxx)");
+									String creditCard = s1.next();
+									RiderList.addRider(phone, name, creditCard);
+								}
+								
+								else if(s2 == 6) {
+									System.out.println("What is the ID of the driver of who you want to find?");
+									String phone1 = s1.next();
+									DriverList.findDriver(phone1);
+								}
+								
+								else if(s2 == 7) {
+									System.out.println("What is the ID of the driver of who you want to find?");
+									String phone1 = s1.next();
+									RiderList.findRider(phone1);
 								}
 								
 							}
+							s1.close();
 						}
 						 else if(attempt.equalsIgnoreCase("S")){
 								loop = false;
 								//stops the loop if the user presses "s"
-							}
+						}
 						
 						 else{
 								System.out.println("Sorry, that is incorrect, please try again.");
@@ -160,11 +211,11 @@ public class AppMain {
 								String employeechoice = "";
 								System.out.println("What would you like to do?");
 								System.out.println("Press (S) to go back to the main menu");
-								System.out.println("(1) ");
-								System.out.println("(2) ");
-								System.out.println("(3) ");
-								System.out.println("(4) ");
-								System.out.println("(5) ");
+								System.out.println("(1) Get Name");
+								System.out.println("(2) Set Name");
+								System.out.println("(3) Get Ride Level");
+								System.out.println("(4) Set Ride Level");
+								System.out.println("(5) Check Available Rides");
 								employeechoice = s5.next();
 								
 								if(employeechoice.equalsIgnoreCase("S")){
@@ -173,23 +224,27 @@ public class AppMain {
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("1")){
-									
+									Driver.getName(s4);
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("2")){
-									
+									System.out.println("Enter new name");
+									String nameNew = s5.next();
+									Driver.setName(s4, nameNew);
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("3")){
-									
+									Driver.getRideLevel(s4);
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("4")){
-									
+									System.out.println("Enter new level.\n'1' for Standard Car\n'2' for Luxury Car\n'3' for cars up to 8 riders");
+									int ride = s5.nextInt();
+									Driver.setRideLevel(s4, ride);
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("5")){
-									
+									Driver.pickUpRide(s4);
 								}
 								else{
 									System.out.println("That is not a valid option");
@@ -208,11 +263,78 @@ public class AppMain {
 				}
 					
 				if(hold.equalsIgnoreCase("C")){
+					boolean customerloop = true;
+					while(customerloop){
+						Scanner s3 = new Scanner(System.in);
+						String s4 = "";
+						boolean present;
+						System.out.println("Press (Q) to go back to the main menu");
+						System.out.println("Please enter your customer ID: ");
+						s4 = s3.next();
+						present = RiderList.isRider(s4);
+						
+						if(present){
+							boolean menuloop = true;
+							while(menuloop){
+								Scanner s5 = new Scanner(System.in);
+								String customerchoice = "";
+								System.out.println("What would you like to do?");
+								System.out.println("Press (S) to go back to the main menu");
+								System.out.println("(1) Get Name");
+								System.out.println("(2) Set Name");
+								System.out.println("(3) Get Credit Card");
+								System.out.println("(4) Set Credit Card");
+								System.out.println("(5) Request Ride");
+								customerchoice = s5.next();
+								
+								if(customerchoice.equalsIgnoreCase("S")){
+									menuloop = false;
+									customerloop = false;
+								}
+								
+								else if(customerchoice.equalsIgnoreCase("1")){
+									Driver.getName(s4);
+								}
+								
+								else if(customerchoice.equalsIgnoreCase("2")){
+									
+								}
+								
+								else if(customerchoice.equalsIgnoreCase("3")){
+									
+								}
+								
+								else if(customerchoice.equalsIgnoreCase("4")){
+									
+								}
+								
+								else if(customerchoice.equalsIgnoreCase("5")){
+									System.out.println("Enter desired destination");
+									String destination = s3.next();
+									System.out.println("Enter distance needed to travel in miles");
+									int miles = 0;
+									miles = s3.nextInt();
+									System.out.println("Enter desired car level");
+									String carLevel1 = s3.next();
+									Rider.requestRide(s4, carLevel1, miles);
+								}
+								else{
+									System.out.println("That is not a valid option");
+								}
+							}
+						}
+						else if (s4.equalsIgnoreCase("Q")){
+							customerloop = false;
+						}
+						else{
+							System.out.println("That is not a valid customer ID, please try again");
+							System.out.println();
+						}
 					
+					}
 				}
 				
 				}
-				
 				
 			}
 		}
