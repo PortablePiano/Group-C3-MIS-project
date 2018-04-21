@@ -65,7 +65,9 @@ public class AppMain {
 			String sql2 = "CREATE TABLE AllRiders " + "(Phone VARCHAR(25), " + "Name VARCHAR(25), " + "Credit_Card VARCHAR(25))";
 			stat.executeUpdate(sql2);
 			String firstRider = "INSERT INTO AllRiders VALUES('516-228-9523','Tyler', '1234-4321-1234-4321')";
+			String secondRider = "INSERT INTO AllRiders VALUES('630-777-0417','Joe', '9876-1234-1674-4741')";
 			stat.executeUpdate(firstRider);
+			stat.executeUpdate(secondRider);
 			
 			stat.execute("DROP TABLE AllRides");
 			String sql3 = "CREATE TABLE AllRides " + "(Rider_Phone VARCHAR(25), " + "Driver_Phone VARCHAR(25), " + "Car_Level VARCHAR(25), " + "Miles INT, " + "Picked_Up BOOLEAN)";
@@ -88,6 +90,7 @@ public class AppMain {
 					stat.execute("DROP TABLE AllDrivers");
 					stat.execute("DROP TABLE AllRiders");
 					stat.execute("DROP TABLE AllRides");
+					user.close();
 				}
 				
 				if(hold.equalsIgnoreCase("M")){
@@ -119,6 +122,7 @@ public class AppMain {
 								if(s2 ==0) {
 									loop1 = false;
 									loop = false;
+									user.close();
 								}
 								
 								else if(s2 == 1){
@@ -244,13 +248,14 @@ public class AppMain {
 								}
 								
 								else if(employeechoice.equalsIgnoreCase("5")){
-									if(Driver.checkRide(s4)){
+									if(!Driver.checkRide(s4).equals("no")){
+										String rPhone = Driver.checkRide(s4);
 										System.out.println("There are available rides. Would you like to pick one up?");
 										System.out.println("(1) Yes");
 										System.out.println("(2) No");
 										int answer = user.nextInt();
 										if(answer == 1){
-											Driver.pickupRide();
+											Driver.pickUpRide(rPhone, s4);
 										}
 										else if(answer == 2){
 											System.out.println("No ride will be picked up");
@@ -258,6 +263,8 @@ public class AppMain {
 										else{
 											System.out.println("Invalid Command. Not picking up a ride.");
 										}
+									}else {
+										System.out.println("No rides available");
 									}
 								}
 								else{
@@ -327,7 +334,7 @@ public class AppMain {
 									String destination = user.next();
 									System.out.println("Enter distance needed to travel in miles");
 									int miles = 0;
-									miles = s3.nextInt();
+									miles = user.nextInt();
 									System.out.println("Enter desired car level");
 									String carLevel1 = user.next();
 									Rider.requestRide(s4, carLevel1, miles);
