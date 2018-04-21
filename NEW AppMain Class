@@ -314,19 +314,23 @@ public class AppMain {
 								}
 								
 								else if(customerchoice.equalsIgnoreCase("1")){
-									Driver.getName(s4);
+									Rider.getName(s4);
 								}
 								
 								else if(customerchoice.equalsIgnoreCase("2")){
-									
+									System.out.println("Enter your name:");
+									String cName = user.next();
+									Rider.setName(s4, cName);
 								}
 								
 								else if(customerchoice.equalsIgnoreCase("3")){
-									
+									Rider.getCreditCard(s4);
 								}
 								
 								else if(customerchoice.equalsIgnoreCase("4")){
-									
+									System.out.println("Enter your Credit Card Number");
+									String cCreditCard = user.next();
+									Rider.setCreditCard(s4, cCreditCard);
 								}
 								
 								else if(customerchoice.equalsIgnoreCase("5")){
