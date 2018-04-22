@@ -55,11 +55,11 @@ public class AppMain {
 			in.close();
 
 			stat.execute("DROP TABLE ALLDrivers");
-			String sql = "CREATE TABLE AllDrivers " + "(Phone VARCHAR(25), " + "Name VARCHAR(25), " + "Make VARCHAR(25), " + "Model VARCHAR(25), " + "Color VARCHAR(25), "  + "License_Plate VARCHAR(25), " + "Drivers_License_Number VARCHAR(25), " + "Ride_Level VARCHAR(25))";
+			String sql = "CREATE TABLE AllDrivers " + "(Phone VARCHAR(25), " + "Name VARCHAR(25), " + "Make VARCHAR(25), " + "Model VARCHAR(25), " + "Color VARCHAR(25), "  + "License_Plate VARCHAR(25), " + "Drivers_License_Number VARCHAR(25), " + "Ride_Level VARCHAR(25), Balance DOUBLE)";
 			stat.executeUpdate(sql);
 			//create table for the driver information
 			for(int i=0; i<carMake.size(); i++){//insert all the values into an SQL database
-				stat.execute("INSERT INTO AllDrivers VALUES('" + phoneNum.get(i) + "', '" + driverName.get(i) + "', '" + carMake.get(i) + "', '" + carModel.get(i) + "', '" + carColor.get(i) + "', '" + licensePlate.get(i) + "', '" + driversLicense.get(i) + "', '" + carLevel.get(i) + "')");
+				stat.execute("INSERT INTO AllDrivers VALUES('" + phoneNum.get(i) + "', '" + driverName.get(i) + "', '" + carMake.get(i) + "', '" + carModel.get(i) + "', '" + carColor.get(i) + "', '" + licensePlate.get(i) + "', '" + driversLicense.get(i) + "', '" + carLevel.get(i) + "', 0)");
 			}
 			stat.execute("DROP TABLE AllRiders");
 			String sql2 = "CREATE TABLE AllRiders " + "(Phone VARCHAR(25), " + "Name VARCHAR(25), " + "Credit_Card VARCHAR(25))";
@@ -70,7 +70,7 @@ public class AppMain {
 			stat.executeUpdate(secondRider);
 			
 			stat.execute("DROP TABLE AllRides");
-			String sql3 = "CREATE TABLE AllRides " + "(Rider_Phone VARCHAR(25), " + "Driver_Phone VARCHAR(25), " + "Car_Level VARCHAR(25), " + "Miles INT, " + "Picked_Up BOOLEAN)";
+			String sql3 = "CREATE TABLE AllRides " + "(Rider_Phone VARCHAR(25), " + "Driver_Phone VARCHAR(25), " + "Car_Level VARCHAR(25), " + "Miles DOUBLE, " + "Picked_Up BOOLEAN, Destination VARCHAR(50))";
 			stat.executeUpdate(sql3);
 			
 			boolean on = true;
@@ -258,17 +258,17 @@ public class AppMain {
 											Driver.pickUpRide(rPhone, s4);
 										}
 										else if(answer == 2){
-											System.out.println("No ride will be picked up");
+											System.out.println("No ride will be picked up\n");
 										}
 										else{
-											System.out.println("Invalid Command. Not picking up a ride.");
+											System.out.println("Invalid Command. Not picking up a ride.\n");
 										}
 									}else {
-										System.out.println("No rides available");
+										System.out.println("No rides available\n");
 									}
 								}
 								else{
-									System.out.println("That is not a valid option");
+									System.out.println("That is not a valid option\n");
 								}
 							}
 						}
@@ -276,8 +276,7 @@ public class AppMain {
 							employeeloop = false;
 						}
 						else{
-							System.out.println("That is not a valid employee ID, please try again");
-							System.out.println();
+							System.out.println("That is not a valid employee ID, please try again\n");
 						}
 					
 					}
@@ -296,6 +295,14 @@ public class AppMain {
 						
 						if(present){
 							boolean menuloop = true;
+							String check = Rider.checkRide(s4);
+							if (check.equals("No one has picked up your pending ride\n")) {
+								System.out.println(check);
+							}else if(check.equals("")) {
+								check = "no rides";
+							}else {
+								Rider.checkDriver(check);
+							}
 							while(menuloop){
 								//Scanner s5 = new Scanner(System.in);
 								String customerchoice = "";
@@ -337,11 +344,11 @@ public class AppMain {
 									System.out.println("Enter desired destination");
 									String destination = user.next();
 									System.out.println("Enter distance needed to travel in miles");
-									int miles = 0;
-									miles = user.nextInt();
+									double miles = 0;
+									miles = user.nextDouble();
 									System.out.println("Enter desired car level");
 									String carLevel1 = user.next();
-									Rider.requestRide(s4, carLevel1, miles);
+									Rider.requestRide(s4, carLevel1, miles, destination);
 								}
 								else{
 									System.out.println("That is not a valid option");
