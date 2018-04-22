@@ -1,130 +1,81 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Scanner;
 
 public class DriverList {
 	
-	public static void addDriver () throws SQLException {
+	public static void addDriver (String phone, String name, String make, String model, String color, String licensePlate, String driversLicense, String carLevel) throws SQLException {
 	//addDriver - add a driver to array
 		try (Connection conn = SimpleDataSource.getConnection()){
 			Statement stat=conn.createStatement();
-			Scanner in = new Scanner(System.in);
-			System.out.println("insert phone number (xxx-xxx-xxxx)");
-			String phone = in.next();
-			System.out.println("insert name");
-			String name = in.next();
-			System.out.println("insert make");
-			String make= in.next();
-			System.out.println("insert model");
-			String model = in.next();
-			System.out.println("insert color");
-			String color= in.next();
-			System.out.println("insert License Plate");
-			String licensePlate= in.next();
-			System.out.println("Insert Drivers License");
-			String driversLicense = in.next();
-			System.out.println("Insert Car Level");
-			System.out.println("1:Standard Sedan_4 person ; 2: Luxury Car_4 person ; 3: large vehicle_5-8 person");
-			String carLevel = in.next();
-			String stmt = "INSERT INTO AllDrivers VALUES ('" + phone + "', '" + name + "', '" + make + "', '" + model + "', '" + color  + "', '" + licensePlate  + "', '" + driversLicense   + "', '" + carLevel + "')"; 
+			String stmt = "INSERT INTO AllDrivers VALUES ('" + phone + "', '" + name + "', '" + make + "', '" + model + "', '" + color  + "', '" + licensePlate  + "', '" + driversLicense   + "', '" + carLevel + "', 0)"; 
 			stat.execute(stmt);
-			in.close();
+			System.out.println("Driver added.");
+
 		}
 	}
 	
-	public static void removeDriver() throws SQLException {
+	public static void removeDriver(String phone) throws SQLException {
 	//removeDriver - remove driver from array 
 		try (Connection conn = SimpleDataSource.getConnection()){
-			Statement stat= conn.createStatement();
-			System.out.println("Enter ID of driver you wish to delete.");
-			Scanner in = new Scanner(System.in);
-			String phone = in.next();
+			Statement stat=conn.createStatement();
 			String stmt = "DELETE FROM AllDrivers WHERE Phone = '" + phone + "'"; 
 			stat.execute(stmt);
-			in.close();
+			System.out.println("Driver removed.\n");
 		}
 	}
 	public static void listDrivers() throws SQLException{
 	//listDrivers - lists all drivers in system 
-		try (Connection conn =SimpleDataSource.getConnection()){
-			Statement stat=conn.createStatement();
-			String stmt = "SELECT Name FROM AllDrivers";
-			boolean hasResultSet = stat.execute(stmt);
-			if (hasResultSet){
-				ResultSet result = stat.executeQuery(stmt);
-				for (int i = 0; result.next(); i++) {          			          	
-					System.out.printf("%15s/n",result.getString(i)); //Print one element of a row       
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String query = "SELECT * FROM AllDrivers";
+			ResultSet result = stat.executeQuery(query);
+			System.out.printf("%-20s", "Phone");
+			System.out.printf("%-20s\n", "Name");
+			while (result.next()) {
+				for (int i = 1; i <=2; i ++) {
+					System.out.printf("%-20s", result.getString(i));
 				}
-			}else{
-				System.out.println("Drivers not found");
+				System.out.println("");
 			}
+			System.out.println("");
 		}
 	}
 
-	public static String findDriver(String phone) throws SQLException{
+	public static void findDriver(String phone) throws SQLException{
 	//findDriver - find a driver name by using their Driver ID
 		try (Connection conn = SimpleDataSource.getConnection()){
 			Statement stat= conn.createStatement();
-			String stmt = "SELECT Name FROM AllDrivers WHERE Phone = " + phone; 
-			boolean hasResultSet = stat.execute(stmt);
-			if (hasResultSet){
-				ResultSet result = stat.executeQuery(stmt);
-				return(result.getString(0));//maybe 1?? 
-			}else{
-				return("No driver found.");
+			String stmt = "SELECT * FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.printf("%-20s", "Phone");
+			System.out.printf("%-20s", "Name");
+			System.out.printf("%-20s", "Model");
+			System.out.printf("%-20s", "Color");
+			System.out.printf("%-20s", "Liscense Plate");
+			System.out.printf("%-20s", "Driver Liscense Number");
+			System.out.printf("%-20s\n", "Ride Level");
+			while (result.next()) {
+				for (int i = 1; i <=7; i ++) {
+					System.out.printf("%-20s", result.getString(i));
+				}
+				System.out.println("");
 			}
+			System.out.println("");
 		}
 	}
 	
 	public static boolean isDriver(String phone) throws SQLException {
 		try (Connection conn = SimpleDataSource.getConnection()){
 			Statement stat= conn.createStatement();
-			String stmt = "SELECT * FROM AllDrivers WHERE Phone = " + phone; 
-			boolean hasResultSet = stat.execute(stmt);
-			if (hasResultSet){
+			String stmt = "SELECT * FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			if (result.next()){
 				return true;
 			}else{
 				return false;
 			}
-		}
-	}
-	
-	public static void readTxtFile() throws SQLException, FileNotFoundException{
-		//reads text files and adds them to AllDrivers
-		//last updated 4/15
-		File file = new File("drive.txt");
-		Scanner in = new Scanner(System.in);
-		Scanner out = new Scanner(file);
-		String phone = "";
-		String name = "";
-		String make = "";
-		String model = "";
-		String color = "";
-		String licencePlate = "";
-		String licence = "";
-		String carLevel = "";
-		int payRate = 0;
-		while (out.hasNextLine()){
-			phone = in.next();
-			name = in.next();
-			make = in.next();
-			model = in.next();
-			color = in.next();
-			licencePlate = in.next();
-			licence = in.next();
-			carLevel = in.next();
-			payRate = in.nextInt();
-		try (Connection conn = SimpleDataSource.getConnection()){
-			Statement stat=conn.createStatement();
-			String stmt = "INSERT INTO AllDrivers VALUES (" + phone + "', '" + name + "', '" + make + "', '" + model + "', '" + color + "', '" + licencePlate + "', '" + licence + "', '" + "'" + carLevel + "', '" + payRate + ")";
-			stat.execute(stmt);
-		}
-		in.close();
-		out.close();
 		}
 	}
 	
