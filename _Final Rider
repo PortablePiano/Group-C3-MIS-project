@@ -1,0 +1,114 @@
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Rider {
+
+	public static void getName(String phone) throws SQLException{
+	//getName - gets rider’s name given their ID/Phone number
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.printf("%-20s\n", "Name");
+			while (result.next()) {
+				for (int i = 1; i <=1; i ++) {
+					result.getString(i);
+				}
+				System.out.printf("%-20s\n", result.getString(2));
+			}
+			System.out.println("");
+		}
+	}
+		 	
+	public static void setName(String phone, String name) throws SQLException{
+	//setID - sets rider’s name given their ID/Phone number
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "UPDATE AllRiders" + " SET Name = '" + name + "' WHERE Phone = '" + phone + "'";
+			stat.executeUpdate(stmt);
+			System.out.println("Name updated");
+		}
+	}
+			
+	public static void setCreditCard (String phone, String creditCard) throws SQLException{
+	//setCreditCard - sets rider's credit card given phone/ID
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "UPDATE AllRiders" + " SET Credit_Card = '" + creditCard + "' WHERE Phone = '" + phone + "'";
+			stat.executeUpdate(stmt);
+			System.out.println("Credit Card updated\n");
+		}
+	}
+	
+	public static void getCreditCard(String phone) throws SQLException{
+	//getName - gets rider’s Credit Card given their ID/Phone number
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.printf("%-20s\n", "Credit Card");
+			while (result.next()) {
+				for (int i = 2; i <=1; i ++) {
+					result.getString(i);
+				}
+				String value = result.getString(3);
+				System.out.printf("%-20s\n", value);
+			}
+			System.out.println("");
+		}
+	}
+	
+	public static void requestRide(String phone, String carLevel, double miles, String destination) throws SQLException{
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "INSERT INTO AllRides VALUES ('" + phone + "', NULL, '" + carLevel + "', " + miles + ", FALSE, '" + destination + "')";//parenthesis around values? 
+			stat.executeUpdate(stmt);
+			System.out.println("Ride requested.\n");
+			}
+	}
+	
+	public static String checkRide(String phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT Driver_Phone FROM AllRides WHERE Picked_Up = TRUE AND Rider_Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			if (result.next()) {	
+				String dPhone = result.getString(1);
+				return dPhone;
+			}else {
+				String stmt1 = "SELECT Driver_Phone FROM AllRides WHERE Picked_Up = FALSE AND Rider_Phone = '" + phone + "'";
+				ResultSet result1 = stat.executeQuery(stmt1);
+				if (result1.next()) {
+					return ("No one has picked up your pending ride.");
+				}else {
+					return ("");
+				}
+			}	
+		}
+	}
+	
+	public static void checkDriver(String dPhone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllDrivers WHERE Phone = '" + dPhone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			if (result.next()) {
+				System.out.println("Your ride has been picked up.  Driver info:\n");
+				System.out.printf("%-20s", "Driver Phone");
+				System.out.printf("%-20s", "Driver Name");
+				System.out.printf("%-20s", "Car Make");
+				System.out.printf("%-20s", "Car Model");
+				System.out.printf("%-20s", "Car Color");
+				System.out.printf("%-20s\n", "Car License Plate");
+				for (int i = 1; i <=6; i ++) {
+					String variable = result.getString(i);
+					System.out.printf("%-20s", variable);
+				}
+			System.out.println("\n");
+			}
+		}
+	}
+	
+}
