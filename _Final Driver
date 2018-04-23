@@ -1,0 +1,181 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Driver{
+//Using a driver drive.txt that contains the drivers names, car type (make, model, color,  license plate), driver’s ID.
+
+	public static void getName(String phone) throws SQLException {
+	//getName - gets driver’s name provided driver ID
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.printf("%-20s\n", "Name");
+			while (result.next()) {
+				for (int i = 1; i <=1; i ++) {
+					result.getString(i);
+				}
+				String value = result.getString(2);
+				System.out.printf("%-20s\n", value);
+			}
+			System.out.println("");
+		}
+	}
+	
+	public static void getRideLevel(String phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.printf("%-20s\n", "Ride Level");
+			while (result.next()) {
+				for (int i = 1; i <=7; i ++) {
+					result.getString(i);
+				}
+				String value = result.getString(8);
+				System.out.printf("%-20s\n", value);
+			}
+			System.out.println("");
+			
+		}
+	}
+	
+	public static void setRideLevel(String phone, int level) throws SQLException{
+		System.out.println(level);
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat = conn.createStatement();
+			String stmt = "UPDATE AllDrivers SET Ride_Level = '" + level + "' WHERE Phone = '" + phone + "'";
+			stat.executeUpdate(stmt);
+			System.out.println("Ride level updated\n");
+		}
+	}
+	
+	public static void setName(String phone, String name) throws SQLException{
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "UPDATE AllDrivers" + " SET Name = '" + name + "' WHERE Phone = '" + phone + "'";
+			stat.executeUpdate(stmt);
+			System.out.println("Name updated\n");
+		}
+	}
+	
+	public static String checkRide(String phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String rideLevel = "";
+			String stmt1 = "SELECT * FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			ResultSet result1 = stat.executeQuery(stmt1);
+			while (result1.next()) {
+				for (int i = 1; i <=7; i ++) {
+					result1.getString(i);
+				}
+				rideLevel = result1.getString(8);
+			}
+			String stmt = "SELECT * FROM AllRides WHERE Picked_Up = FALSE AND Car_Level = '" + rideLevel + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			if (result.next()) {	
+				return result.getString(1);
+			}else {
+				return ("no");
+			}
+		}	
+	}
+	
+	public static void pickUpRide(String rPhone, String phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "UPDATE AllRides" + " SET Driver_Phone = '" + phone + "' WHERE Rider_Phone = '" + rPhone + "'";
+
+			stat.executeUpdate(stmt);
+			System.out.println("Ride picked up");
+			
+			String stmt3 = "SELECT * FROM AllRiders WHERE Phone = '" + rPhone + "'"; 
+			ResultSet result1 = stat.executeQuery(stmt3);
+			while (result1.next()) {
+				for (int i = 1; i <=1; i ++) {
+					result1.getString(i);
+				}
+				String riderName = result1.getString(2);
+				System.out.println("The name of your rider is " + riderName);
+				System.out.println("");
+			}
+			
+			String stmt2 = "SELECT Destination FROM AllRides WHERE Rider_Phone = '" + rPhone + "' AND Picked_Up = FALSE";
+			stat.executeQuery(stmt2);
+			ResultSet result2 = stat.executeQuery(stmt2);
+			while (result2.next()) {
+				String destination = result2.getString(1);
+				System.out.println("Your destination is " + destination);
+				System.out.println("");
+			}
+			
+			String stmtLevel = "SELECT Car_Level FROM AllRides WHERE Rider_Phone = '" + rPhone + "'";
+			stat.executeQuery(stmtLevel);
+			ResultSet resultRate = stat.executeQuery(stmtLevel);
+			String level = "";
+			while (resultRate.next()) {
+				level = resultRate.getString(1);
+			}
+			double rate = getRate(level);
+			
+			String stmtMiles = "SELECT Miles FROM AllRides WHERE Driver_Phone = '" + phone + "' AND Picked_Up = FALSE";
+			stat.executeQuery(stmtLevel);
+			ResultSet resultMiles = stat.executeQuery(stmtMiles);
+			double miles = 0;
+			while (resultMiles.next()) {
+				miles = resultMiles.getDouble(1);
+			}
+			double balance = miles * rate;
+			String stmt1 = "UPDATE AllRides" + " SET Picked_Up = TRUE WHERE Driver_Phone = '" + phone + "'";
+			stat.executeUpdate(stmt1);
+			
+			String stmtBalance = "SELECT Balance FROM AllDrivers WHERE Phone = '" + phone + "'";
+			stat.executeQuery(stmtBalance);
+			ResultSet resultBalance = stat.executeQuery(stmtBalance);
+			double current = 0;
+			while (resultBalance.next()) {
+				current += resultBalance.getDouble(1);
+			}
+			current += balance;
+			String balanceStmt = "UPDATE AllDrivers" + " SET Balance = " + current + " WHERE Phone = '" + phone + "'";
+			stat.executeUpdate(balanceStmt);
+			System.out.printf("New Balance = $%.2f\n\n", current);
+			
+		}
+	}
+	
+	public static double getRate(String level) {
+		if (level.equals("1")) {
+			return 0.75;
+		}else if(level.equals("2")) {
+			return 0.8;
+		}else {
+			return 0.9;
+		}
+	}
+	
+	public static void dailyReport() throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllRides WHERE Picked_Up = TRUE"; 
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.println("Daily Report");
+					System.out.printf("%-20s", "Rider ID");
+					System.out.printf("%-20s", "Driver ID");
+					System.out.printf("%-20s", "Car Level");
+					System.out.printf("%-20s", "Miles");
+					System.out.printf("%-20s\n", "Destination");
+					while(result.next()) {
+						for (int i = 1; i <=4; i ++) {
+							String variable = result.getString(i);
+							System.out.printf("%-20s", variable);
+						}
+						System.out.printf("%-20s", result.getString(6));
+						System.out.println("\n");
+					}
+		}
+	}
+}
+
