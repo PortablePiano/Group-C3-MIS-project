@@ -1,0 +1,82 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class DriverList {
+	
+	public static void addDriver (String phone, String name, String make, String model, String color, String licensePlate, String driversLicense, String carLevel) throws SQLException {
+	//addDriver - add a driver to array
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "INSERT INTO AllDrivers VALUES ('" + phone + "', '" + name + "', '" + make + "', '" + model + "', '" + color  + "', '" + licensePlate  + "', '" + driversLicense   + "', '" + carLevel + "', 0)"; 
+			stat.execute(stmt);
+			System.out.println("Driver added.");
+
+		}
+	}
+	
+	public static void removeDriver(String phone) throws SQLException {
+	//removeDriver - remove driver from array 
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "DELETE FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			stat.execute(stmt);
+			System.out.println("Driver removed.\n");
+		}
+	}
+	public static void listDrivers() throws SQLException{
+	//listDrivers - lists all drivers in system 
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String query = "SELECT * FROM AllDrivers";
+			ResultSet result = stat.executeQuery(query);
+			System.out.printf("%-20s", "Phone");
+			System.out.printf("%-20s\n", "Name");
+			while (result.next()) {
+				for (int i = 1; i <=2; i ++) {
+					System.out.printf("%-20s", result.getString(i));
+				}
+				System.out.println("");
+			}
+			System.out.println("");
+		}
+	}
+
+	public static void findDriver(String phone) throws SQLException{
+	//findDriver - find a driver name by using their Driver ID
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.printf("%-20s", "Phone");
+			System.out.printf("%-20s", "Name");
+			System.out.printf("%-20s", "Model");
+			System.out.printf("%-20s", "Color");
+			System.out.printf("%-20s", "Liscense Plate");
+			System.out.printf("%-20s", "Driver Liscense Number");
+			System.out.printf("%-20s\n", "Ride Level");
+			while (result.next()) {
+				for (int i = 1; i <=7; i ++) {
+					System.out.printf("%-20s", result.getString(i));
+				}
+				System.out.println("");
+			}
+			System.out.println("");
+		}
+	}
+	
+	public static boolean isDriver(String phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllDrivers WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			if (result.next()){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+	
+}
