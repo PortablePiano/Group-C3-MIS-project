@@ -1,0 +1,81 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class RiderList {
+
+	public static void addRider(String phone, String name, String creditCard) throws SQLException {
+		//addRider - add a rider to array
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "INSERT INTO AllRiders VALUES ('" + phone + "', '" + name + "', '" + creditCard + "')"; 
+			stat.execute(stmt);
+			System.out.println("Rider added.");
+			}
+		}
+
+	public static void removeRider(String phone) throws SQLException{	
+	//removeRider - remove rider from array
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "DELETE FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			//phone is given in AppMain
+			stat.execute(stmt);
+		}
+	}
+
+	public static void listRider() throws SQLException{
+	//listRider - lists all rider in system
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String query = "SELECT * FROM AllRiders";
+			ResultSet result = stat.executeQuery(query);
+			System.out.printf("%-20s", "Phone");
+			System.out.printf("%-20s\n", "Name");
+			while (result.next()) {
+				for (int i = 1; i <=2; i ++) {
+					System.out.printf("%-20s", result.getString(i));
+				}
+				System.out.println("");
+			}
+			System.out.println("");
+		}
+	}
+
+
+	public static void findRider(String phone) throws SQLException{
+	//findRider - find a rider name by using their customer ID
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat=conn.createStatement();
+			String stmt = "SELECT * FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			//phone is given in AppMain
+			ResultSet result = stat.executeQuery(stmt);
+			System.out.printf("%-20s", "Phone");
+			System.out.printf("%-20s", "Name");
+			System.out.printf("%-20s\n", "Credit Card");
+			while (result.next()) {
+				for (int i = 1; i <=3; i ++) {
+					System.out.printf("%-20s", result.getString(i));
+				}
+				System.out.println("");
+			}
+		}
+		System.out.println("");
+	}
+	
+	public static boolean isRider(String phone) throws SQLException {
+		try (Connection conn = SimpleDataSource.getConnection()){
+			Statement stat= conn.createStatement();
+			String stmt = "SELECT * FROM AllRiders WHERE Phone = '" + phone + "'"; 
+			ResultSet result = stat.executeQuery(stmt);
+			if (result.next()){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+	
+	
+}
